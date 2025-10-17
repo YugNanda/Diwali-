@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Diwali</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Background Stars */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        /* Name Input Screen */
+        .name-input-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            transition: all 1s ease;
+        }
+
+        .name-input-container {
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            animation: slideIn 0.8s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .name-input-container h1 {
+            color: #ff6b35;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .name-input-container input {
+            padding: 15px 25px;
+            font-size: 18px;
+            border: 2px solid #ff6b35;
+            border-radius: 50px;
+            outline: none;
+            width: 300px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .name-input-container input:focus {
+            border-color: #ff8c42;
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
+        }
+
+        /* Main Container */
+        .main-container {
+            display: none;
+            min-height: 100vh;
+            position: relative;
+            padding: 20px;
+        }
+
+        /* Greeting Card */
+        .greeting-card {
+            max-width: 800px;
+            margin: 50px auto;
+            position: relative;
+            perspective: 1000px;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            transform-style: preserve-3d;
+            transition: transform 1.5s ease;
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 50%, #ffd700 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .card-front:hover {
+            transform: scale(1.02);
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-back {
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .card-opened .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .diya-icon {
+            font-size: 80px;
+            color: #fff;
+            margin-bottom: 20px;
+            animation: diyaGlow 2s infinite alternate;
+        }
+
+        @keyframes diyaGlow {
+            from {
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            }
+            to {
+                text-shadow: 0 0 40px rgba(255, 255, 255, 0.8), 0 0 60px rgba(255, 215, 0, 0.6);
+            }
+        }
+
+        .click-to-open {
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .greeting-message {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4em;
+            color: #ff6b35;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease;
+        }
+
+        .user-name {
+            font-size: 3em;
+            color: #7e22ce;
+            font-weight: 700;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        .diwali-wishes {
+            font-size: 1.2em;
+            color: #666;
+            line-height: 1.8;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Firecrackers */
+        .firecracker {
+            position: absolute;
+            font-size: 30px;
+            animation: firecracker 3s infinite;
+        }
+
+        @keyframes firecracker {
+            0% {
+                transform: translateY(0) scale(0);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+            100% {
+                transform: translateY(-200px) scale(0);
+                opacity: 0;
+            }
+        }
+
+        .firecracker1 { top: 80%; left: 10%; animation-delay: 0s; }
+        .firecracker2 { top: 70%; right: 15%; animation-delay: 1s; }
+        .firecracker3 { top: 85%; left: 50%; animation-delay: 2s; }
+        .firecracker4 { top: 75%; right: 30%; animation-delay: 1.5s; }
+
+        /* Floating Diyas */
+        .floating-diya {
+            position: absolute;
+            font-size: 40px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(10deg);
+            }
+        }
+
+        .diya1 { top: 20%; left: 5%; animation-delay: 0s; }
+        .diya2 { top: 30%; right: 8%; animation-delay: 2s; }
+        .diya3 { top: 15%; left: 80%; animation-delay: 4s; }
+
+        /* Sparkles */
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #ffd700;
+            border-radius: 50%;
+            animation: sparkle 1.5s infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .greeting-message {
+                font-size: 3em;
+            }
+            .user-name {
+                font-size: 2em;
+            }
+            .name-input-container input {
+                width: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Stars Background -->
+    <div class="stars" id="stars"></div>
+
+    <!-- Name Input Screen -->
+    <div class="name-input-screen" id="nameInputScreen">
+        <div class="name-input-container">
+            <h1>🪔 Welcome to Diwali Greetings 🪔</h1>
+            <input type="text" id="userNameInput" placeholder="Enter your name" maxlength="20">
+            <br>
+            <button class="submit-btn" onclick="submitName()">
+                <i class="fa-solid fa-heart" style="color: #ff0000;"></i>
+           Celebrate Diwali
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container" id="mainContainer">
+        <!-- Floating Diyas -->
+        <div class="floating-diya diya1">🪔</div>
+        <div class="floating-diya diya2">🪔</div>
+        <div class="floating-diya diya3">🪔</div>
+
+        <!-- Firecrackers -->
+        <div class="firecracker firecracker1">🎆</div>
+        <div class="firecracker firecracker2">🎇</div>
+        <div class="firecracker firecracker3">🎆</div>
+        <div class="firecracker firecracker4">🎇</div>
+
+        <!-- Greeting Card -->
+        <div class="greeting-card" id="greetingCard">
+            <div class="card-inner">
+                <div class="card-front" onclick="openCard()">
+                    <div class="diya-icon">🪔</div>
+                    <div class="click-to-open">Click Here  ❤️🪔❤️</div>
+                </div>
+                <div class="card-back">
+                    <div class="greeting-message">Happy Diwali</div>
+                    <div class="user-name" id="displayUserName"></div>
+                    <div class="diwali-wishes">
+                        <p>May the festival of lights brighten up your life with joy, prosperity, and happiness!</p>
+                        <p>Wishing you and your family a sparkling festival filled with love and laughter.</p>
+                        <p>🪔 ✨ 🎆 🪔 ✨ 🎆</p>
+                        <p> Made With ❤️ ❤️ ❤️ </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create animated stars
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const numberOfStars = 100;
+
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Create sparkles
+        function createSparkles() {
+            const mainContainer = document.getElementById('mainContainer');
+            setInterval(() => {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.top = Math.random() * 100 + '%';
+                mainContainer.appendChild(sparkle);
+
+                setTimeout(() => {
+                    sparkle.remove();
+                }, 1500);
+            }, 300);
+        }
+
+        // Submit name function
+        function submitName() {
+            const userName = document.getElementById('userNameInput').value.trim();
+            
+            if (userName === '') {
+                alert('Please enter your name!');
+                return;
+            }
+
+            // Store username
+            localStorage.setItem('diwaliUserName', userName);
+
+            // Hide input screen
+            const inputScreen = document.getElementById('nameInputScreen');
+            inputScreen.style.opacity = '0';
+            inputScreen.style.transform = 'scale(0.8)';
+
+            setTimeout(() => {
+                inputScreen.style.display = 'none';
+                document.getElementById('mainContainer').style.display = 'block';
+                
+                // Set username in greeting
+                document.getElementById('displayUserName').textContent = userName;
+                
+                // Add entrance animation to main container
+                document.getElementById('mainContainer').style.animation = 'fadeIn 1s ease';
+            }, 500);
+        }
+
+        // Open card function
+        function openCard() {
+            const card = document.getElementById('greetingCard');
+            card.classList.add('card-opened');
+            
+            // Create celebration effect
+            createCelebration();
+        }
+
+        // Create celebration effect
+        function createCelebration() {
+            const colors = ['#ff6b35', '#ff8c42', '#ffd700', '#7e22ce', '#ff1744'];
+            
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.style.position = 'fixed';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.top = '-10px';
+                    confetti.style.width = '10px';
+                    confetti.style.height = '10px';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.borderRadius = '50%';
+                    confetti.style.zIndex = '9999';
+                    confetti.style.animation = 'fall 3s linear forwards';
+                    
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 3000);
+                }, i * 100);
+            }
+        }
+
+        // Add fall animation for confetti
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fall {
+                to {
+                    transform: translateY(100vh) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Allow Enter key to submit name
+        document.getElementById('userNameInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                submitName();
+            }
+        });
+
+        // Initialize
+        window.onload = function() {
+            createStars();
+            setTimeout(createSparkles, 1000);
+        };
+    </script>
+</body>
+</html>
